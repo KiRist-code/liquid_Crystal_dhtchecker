@@ -14,35 +14,39 @@ void setup() {
   lcd.backlight();
   pinMode(3,INPUT);
   pinMode(2,OUTPUT);
-  value = dht.read(humi,temp);
+  lcd.setCursor(0,0);
+  lcd.print("Hello!!");
+  lcd.setCursor(0,1);
+  lcd.print("NOW LOADING...");
   delay(2000);
+  lcd.clear();
 }
 
 void loop() {
+  value = dht.read(humi,temp);
   if(digitalRead(3) == 1) {
-    if(nx == 2) nx = 1;
-    else nx++;
+    nx++;
+    delay(100);
   }
-  if(nx == 0){
+  if(nx % 2 == 0){
     lcd.setCursor(0,0);
-    lcd.print("Hello!!");
+    lcd.print("temperature:");
     lcd.setCursor(0,1);
-    lcd.print("NOW LOADING...");
-  }
-  else {
-    if(nx = 1){`
-      lcd.setCursor(0,0);
-      lcd.print("temperature:");
-      lcd.setCursor(0,1);
-      lcd.print(temp);
-    }
-    else {
-      lcd.setCursor(0,0);
-      lcd.print("humidity :");
-      lcd.setCursor(0,1);
-      lcd.print(humi);
+    lcd.print(temp);
+    for(int i=0;i<5;i++){
+      delay(1000);
+      lcd.scrollDisplayRight();
     }
   }
-  delay(1000);
+  if(nx % 2 == 1){
+    lcd.setCursor(7,0);
+    lcd.print("humidity:");
+    lcd.setCursor(7,1);
+    lcd.print(humi);
+    for(int i=0;i<8;i++){
+      delay(1000);
+      lcd.scrollDisplayLeft();
+    }
+  }
   lcd.clear();
 }
